@@ -366,6 +366,7 @@ class RoomViewset(
 
         create_room_feedback_message(room, feedback, method="rt")
         room.notify_queue("update")
+        room.update_ticket()
 
         return Response(
             {"detail": "Room picked successfully"}, status=status.HTTP_200_OK
@@ -418,6 +419,8 @@ class RoomViewset(
                     else:
                         room.notify_user("update", user=transfer_user)
                     room.notify_user("update")
+
+                    room.update_ticket()
 
             if queue_uuid:
                 queue = Queue.objects.get(uuid=queue_uuid)
